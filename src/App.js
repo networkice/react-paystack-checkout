@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react"
+import { PaystackButton } from "react-paystack"
+import "./App.css"
 
-function App() {
+const App = () => {
+  const publicKey = process.env.PAY
+  const amount = 1000000
+  const [email, setEmail] = useState("")
+  const [name, setName] = useState("")
+  const [phone, setPhone] = useState("")
+
+  const componentProps = {
+    email,
+    amount,
+    metadata: {
+      name,
+      phone,
+    },
+    publicKey,
+    text: "Pay Now",
+    onSuccess: () =>
+      alert("Thanks for doing business with us! Come back soon!!"),
+    onClose: () => alert("Wait! Don't leave :("),
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+        <div className="item">
+          <img />
+          <div className="item-details">
+            <p>Dancing Shoes</p>
+            <p>{amount}</p>
+          </div>
+        </div>
+        <div className="checkout-form">
+          <form>
+            <label>Name</label>
+            <input
+              type="text"
+              id="name"
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label>Email</label>
+            <input
+              type="text"
+              id="email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label>Phone</label>
+            <input
+              type="text"
+              id="phone"
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </form>
+          <PaystackButton {...componentProps} />
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
